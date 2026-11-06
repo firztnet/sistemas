@@ -4,102 +4,223 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0b1020">
+  <meta name="theme-color" content="#f3f4f8">
   <title>Mis sistemas · Firztnet</title>
   <link rel="icon" href="icon-192.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <style>
-    :root { --bg: #0b1020; --card: #121a30; --line: #1f2a47; --gold: #d6b56d; --text: #eef1f8; --muted: #9aa6c2; --ok: #4cc38a; --bad: #e36d6d; }
+    :root { color-scheme: light; --bg: #f3f4f8; --ink: #141a2b; --muted: #6b7489; --line: #e3e6ee; --card: #fff; --ok: #1f9d63; --bad: #d64545; }
     * { box-sizing: border-box; }
-    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-    main { max-width: 1080px; margin: 0 auto; padding: 32px 16px 48px; }
-    header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-    header img { width: 44px; height: 44px; border-radius: 12px; }
-    h1 { font-size: 22px; font-weight: 600; margin: 0; }
-    header p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
-    h2 { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin: 28px 0 12px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-    a.card { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
-    a.card:hover, a.card:focus-visible { border-color: var(--gold); transform: translateY(-1px); outline: none; }
-    a.card svg { width: 52px; height: 52px; flex: none; border-radius: 12px; }
-    .name { font-weight: 600; font-size: 15px; }
-    .addr { color: var(--muted); font-size: 12px; margin-top: 2px; overflow-wrap: anywhere; }
-    .state { margin-top: 6px; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-    .ok .dot { background: var(--ok); } .bad .dot { background: var(--bad); }
-    footer { margin-top: 36px; color: var(--muted); font-size: 12px; text-align: center; }
+    html, body { margin: 0; color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    body { min-height: 100vh; background: radial-gradient(900px circle at 0% 0%, #e9e4f7 0, transparent 45%), radial-gradient(800px circle at 100% 100%, #dcebf0 0, transparent 45%), var(--bg); }
+    main { max-width: 1120px; margin: 0 auto; padding: 36px 16px 48px; }
+
+    /* Cabecera: saludo, fecha, resumen y buscador */
+    header { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; margin-bottom: 30px; }
+    .hello { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; }
+    .hello img { width: 54px; height: 54px; border-radius: 16px; box-shadow: 0 8px 20px rgba(20, 26, 43, 0.18); }
+    h1 { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
+    .date { margin: 3px 0 0; color: var(--muted); font-size: 14px; }
+    .date::first-letter { text-transform: uppercase; }
+    .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .summary { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-size: 14px; font-weight: 600; }
+    .summary .dot { background: var(--muted); }
+    .summary.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+    .summary.ok .dot { background: var(--ok); }
+    .summary.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); background: #fff5f5; }
+    .summary.bad .dot { background: var(--bad); }
+    .search { position: relative; }
+    .search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; pointer-events: none; }
+    .search input { width: 230px; height: 42px; padding: 0 40px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: inherit; font-size: 14px; }
+    .search input:focus { outline: none; border-color: #9aa3bb; box-shadow: 0 0 0 4px rgba(120, 130, 160, 0.15); }
+    .search kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+    kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px; border: 1px solid var(--line); border-bottom-width: 2px; background: #f7f8fb; color: var(--muted); font: 600 12px/1 ui-monospace, Consolas, monospace; }
+
+    h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 30px 0 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    h2 small { font-weight: 500; letter-spacing: 0; text-transform: none; font-size: 12px; }
+
+    /* Sistemas: tarjetas grandes, cada una con su color */
+    .systems { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 16px; }
+    .systems .sys-top > div, a.web > div { min-width: 0; }
+    a.sys { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 18px; border-radius: 20px; background: var(--card); border: 1px solid var(--line); color: inherit; text-decoration: none; overflow: hidden; box-shadow: 0 1px 2px rgba(20, 26, 43, 0.04); transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s; }
+    a.sys::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--c1), var(--c2)); }
+    a.sys:hover, a.sys:focus-visible { transform: translateY(-3px); border-color: color-mix(in srgb, var(--c1) 45%, var(--line)); box-shadow: 0 18px 40px color-mix(in srgb, var(--c1) 26%, transparent); outline: none; }
+    .sys-top { display: flex; align-items: center; gap: 14px; padding-right: 26px; }
+    .av { display: grid; place-items: center; width: 60px; height: 60px; flex: none; border-radius: 18px; background: linear-gradient(135deg, var(--c1), var(--c2)); color: var(--mark, #fff); box-shadow: 0 8px 18px color-mix(in srgb, var(--c1) 35%, transparent); }
+    .av svg { width: 44px; height: 44px; fill: none; stroke: currentColor; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .av svg .f { fill: currentColor; stroke: none; }
+    .name { font-weight: 700; font-size: 17px; }
+    .tag { margin-top: 2px; color: var(--muted); font-size: 13px; }
+    .sys-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .addr { min-width: 0; color: var(--muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    a.sys .addr { font-size: 12px; }
+    a.sys kbd { position: absolute; top: 18px; right: 16px; }
+    .state { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #b8bfcf; flex: none; }
+    .state.ok { color: var(--ok); } .state.ok .dot { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 20%, transparent); }
+    .state.bad { color: var(--bad); } .state.bad .dot { background: var(--bad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bad) 20%, transparent); }
+
+    /* Webs: fila de tarjetas pequeñas y sencillas */
+    .webs { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+    a.web { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--card) 70%, transparent); border: 1px dashed #cdd2de; color: inherit; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
+    a.web:hover, a.web:focus-visible { border-style: solid; border-color: #9aa3bb; background: var(--card); outline: none; }
+    a.web .av { width: 38px; height: 38px; border-radius: 11px; background: #eef0f5; color: #4a5570; box-shadow: none; }
+    a.web .av svg { width: 30px; height: 30px; }
+    a.web .name { font-size: 14.5px; }
+    a.web .addr { font-size: 12px; }
+    a.web .state { margin-left: auto; }
+    a.web .state span:last-child { display: none; }
+
+    .hidden { display: none !important; }
+    .empty { color: var(--muted); font-size: 14px; padding: 8px 2px; }
+    footer { margin-top: 38px; color: var(--muted); font-size: 12px; text-align: center; line-height: 1.9; }
+    /* En el móvil no hay teclado: fuera los números y los atajos */
+    @media (hover: none) and (pointer: coarse) { a.sys kbd, .search kbd, h2 small, .keys { display: none; } }
+    @media (max-width: 560px) { .tools, .search, .search input { width: 100%; } .summary { flex: 1; justify-content: center; } h1 { font-size: 22px; } }
   </style>
 </head>
 <body>
 <main>
   <header>
-    <img src="icon-192.png" alt="">
-    <div><h1>Mis sistemas</h1><p>Firztnet · acceso rápido a todos los paneles</p></div>
+    <div class="hello">
+      <img src="icon-192.png" alt="">
+      <div><h1 id="hello">Hola, Carlos</h1><p class="date" id="today"></p></div>
+    </div>
+    <div class="tools">
+      <div class="summary" id="summary" role="status"><span class="dot"></span><span id="summaryText">Comprobando los sistemas…</span></div>
+      <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="Buscar un sistema…" aria-label="Buscar un sistema" autocomplete="off"><kbd>/</kbd></label>
+    </div>
   </header>
 
-  <h2>Sistemas de gestión</h2>
-  <div class="grid">
-    <a class="card" href="https://hosteleria.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M44 54h28v10a14 14 0 0 1-28 0z" fill="#d6b56d"/><path d="M72 57a6 6 0 0 1 0 12" fill="none" stroke="#d6b56d" stroke-width="3"/><path d="M46 82h28" stroke="#d6b56d" stroke-width="3" stroke-linecap="round"/><path d="M53 48c-2-3-2-7 0-10M63 48c-2-3-2-7 0-10" fill="none" stroke="#d6b56d" stroke-width="2.5" stroke-linecap="round"/></svg>
-      <div><div class="name">Hostelería</div><div class="addr">hosteleria.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+  <h2>Sistemas de gestión <small>· pulsa su número para abrirlo</small></h2>
+  <div class="systems" id="systems">
+    <a class="sys" href="https://hosteleria.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#d49a3c;--c2:#a24f22">
+      <kbd>1</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="f" d="M38 52h36v12a18 18 0 0 1-36 0z"/><path d="M74 56a8 8 0 0 1 0 16"/><path d="M38 90h36"/><path d="M48 44c-3-4-3-9 0-13M62 44c-3-4-3-9 0-13"/></svg></span>
+        <div><div class="name">Hostelería</div><div class="tag">Bares y restaurantes</div></div></div>
+      <div class="sys-foot"><span class="addr">hosteleria.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://peluquerias.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M53 68 72 36M67 68 48 36" stroke="#d6b56d" stroke-width="3.5" stroke-linecap="round"/><circle cx="49" cy="75" r="7" fill="none" stroke="#d6b56d" stroke-width="3"/><circle cx="71" cy="75" r="7" fill="none" stroke="#d6b56d" stroke-width="3"/></svg>
-      <div><div class="name">Peluquerías</div><div class="addr">peluquerias.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://peluquerias.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#c05a8a;--c2:#7a3f93">
+      <kbd>2</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M52 70 76 30M68 70 44 30"/><circle cx="46" cy="80" r="10"/><circle cx="74" cy="80" r="10"/></svg></span>
+        <div><div class="name">Peluquerías</div><div class="tag">Salones de belleza</div></div></div>
+      <div class="sys-foot"><span class="addr">peluquerias.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://reformas.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M42 58 60 42 78 58" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 56v20h28V56" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="55" y="64" width="10" height="12" fill="#d6b56d"/></svg>
-      <div><div class="name">Reformas</div><div class="addr">reformas.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://reformas.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#26507a;--c2:#0b1020;--mark:#e2c27f">
+      <kbd>3</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 60 60 34 90 60"/><path d="M38 54v34h44V54"/><rect class="f" x="53" y="66" width="14" height="22"/></svg></span>
+        <div><div class="name">Reformas</div><div class="tag">Obras, fichaje y presupuestos</div></div></div>
+      <div class="sys-foot"><span class="addr">reformas.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://logistica.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M38 50h28v22H38zM66 57h10l6 8v7H66" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><circle cx="47" cy="75" r="4.5" fill="#d6b56d"/><circle cx="74" cy="75" r="4.5" fill="#d6b56d"/></svg>
-      <div><div class="name">Logística</div><div class="addr">logistica.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://logistica.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#3b82f6;--c2:#1e40af">
+      <kbd>4</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M24 40h46v38H24zM70 54h16l12 14v10H70"/><circle class="f" cx="40" cy="84" r="8"/><circle class="f" cx="82" cy="84" r="8"/></svg></span>
+        <div><div class="name">Logística</div><div class="tag">Rutas y repartos</div></div></div>
+      <div class="sys-foot"><span class="addr">logistica.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://reparaciones.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M47 75 64 58" stroke="#d6b56d" stroke-width="6" stroke-linecap="round"/><path d="M62 49a10 10 0 0 1 13 13l-6-1-3-3-1-6z" fill="#d6b56d"/></svg>
-      <div><div class="name">Reparaciones</div><div class="addr">reparaciones.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://reparaciones.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#1f5fbf;--c2:#0e2f6b;--mark:#f6b04a">
+      <kbd>5</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 86 64 56" stroke-width="10"/><path class="f" d="M58 40a18 18 0 0 1 24 24l-10-2-6-6-2-10z"/></svg></span>
+        <div><div class="name">Reparaciones</div><div class="tag">Taller y avisos de las webs</div></div></div>
+      <div class="sys-foot"><span class="addr">reparaciones.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://admin.reciclar.firztnet.es/plataforma/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M49 52 56 41a5 5 0 0 1 8 0l6 10M76 63l5 9a5 5 0 0 1-4 7H64M52 79H43a5 5 0 0 1-4-7l5-9" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 51l2-7M70 51l-7-1M64 79l5-5M64 79l5 5M44 63l-7 2M44 63l2 7" stroke="#d6b56d" stroke-width="3" stroke-linecap="round"/></svg>
-      <div><div class="name">Reciclaje</div><div class="addr">admin.reciclar.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://admin.reciclar.firztnet.es/plataforma/" target="_blank" rel="noopener" data-check data-sys style="--c1:#e3853f;--c2:#3a3f44">
+      <kbd>6</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M44 48 54 32a7 7 0 0 1 12 0l9 14M83 64l7 13a7 7 0 0 1-6 10H67M50 87H36a7 7 0 0 1-6-10l7-13"/><path d="M75 46l3-10M75 46l-10-2M67 87l7-7M67 87l7 7M37 64l-10 3M37 64l3 10"/></svg></span>
+        <div><div class="name">Reciclaje</div><div class="tag">Chatarrerías y desguaces</div></div></div>
+      <div class="sys-foot"><span class="addr">admin.reciclar.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="card" href="https://campus.firztnet.es/admin" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M36 56 60 46l24 10-24 10z" fill="#d6b56d"/><path d="M46 61v10c8 6 20 6 28 0V61" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M82 57v14" stroke="#d6b56d" stroke-width="2.5" stroke-linecap="round"/></svg>
-      <div><div class="name">Campus · mi agenda</div><div class="addr">campus.firztnet.es/admin</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="sys" href="https://campus.firztnet.es/admin" target="_blank" rel="noopener" data-check data-sys style="--c1:#2a9184;--c2:#0d4a5a">
+      <kbd>7</kbd>
+      <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="f" d="M20 52 60 36l40 16-40 16z"/><path d="M38 60v16c12 9 32 9 44 0V60"/><path d="M96 56v20"/></svg></span>
+        <div><div class="name">Campus · mi agenda</div><div class="tag">Agenda y cuentas de estudiantes</div></div></div>
+      <div class="sys-foot"><span class="addr">campus.firztnet.es/admin</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
   </div>
+  <p class="empty hidden" id="noSys">Ningún sistema coincide con la búsqueda.</p>
 
   <h2>Webs</h2>
-  <div class="grid">
-    <a class="card" href="https://firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><rect x="40" y="46" width="40" height="26" rx="3" fill="none" stroke="#d6b56d" stroke-width="3"/><path d="M52 80h16M60 72v8" stroke="#d6b56d" stroke-width="3" stroke-linecap="round"/></svg>
-      <div><div class="name">Firztnet · reparaciones</div><div class="addr">firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+  <div class="webs" id="webs">
+    <a class="web" href="https://firztnet.es/" target="_blank" rel="noopener" data-check>
+      <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="28" y="34" width="64" height="42" rx="5"/><path d="M46 90h28M60 76v14"/></svg></span>
+      <div><div class="name">Firztnet · reparaciones</div><div class="addr">firztnet.es</div></div>
+      <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="card" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><circle cx="60" cy="60" r="18" fill="none" stroke="#d6b56d" stroke-width="3"/><path d="M42 60h36M60 42c-7 8-7 28 0 36M60 42c7 8 7 28 0 36" fill="none" stroke="#d6b56d" stroke-width="2.5"/></svg>
-      <div><div class="name">Firztweb</div><div class="addr">webs.firztnet.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="web" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check>
+      <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="30"/><path d="M30 60h60M60 30c-12 14-12 46 0 60M60 30c12 14 12 46 0 60"/></svg></span>
+      <div><div class="name">Firztweb</div><div class="addr">webs.firztnet.es</div></div>
+      <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="card" href="https://techcompara.es/" target="_blank" rel="noopener" data-check>
-      <svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" fill="#0b1020"/><path d="M60 14 106 60 60 106 14 60Z" fill="none" stroke="#d6b56d" stroke-width="3" stroke-linejoin="round"/><path d="M46 76V62M56 76V50M66 76V56M76 76V44" stroke="#d6b56d" stroke-width="5" stroke-linecap="round"/></svg>
-      <div><div class="name">TechCompara</div><div class="addr">techcompara.es</div><div class="state"><span class="dot"></span><span>Comprobando…</span></div></div>
+    <a class="web" href="https://techcompara.es/" target="_blank" rel="noopener" data-check>
+      <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 88V68M52 88V48M70 88V58M88 88V34" stroke-width="10"/></svg></span>
+      <div><div class="name">TechCompara</div><div class="addr">techcompara.es</div></div>
+      <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
   </div>
+  <p class="empty hidden" id="noWeb">Ninguna web coincide con la búsqueda.</p>
 
-  <footer>Solo enlaces: para entrar en cada sistema hace falta su usuario y contraseña.</footer>
+  <footer>Solo enlaces: para entrar en cada sistema hace falta su usuario y contraseña.<span class="keys"><br>
+    Atajos: <kbd>1</kbd>–<kbd>7</kbd> abre un sistema · <kbd>/</kbd> busca · <kbd>Intro</kbd> abre el primero que encuentre</span></footer>
 </main>
 <script>
+  // Saludo según la hora y la fecha de hoy
+  const now = new Date();
+  const h = now.getHours();
+  document.getElementById('hello').textContent = (h >= 6 && h < 14 ? 'Buenos días' : h >= 14 && h < 21 ? 'Buenas tardes' : 'Buenas noches') + ', Carlos';
+  document.getElementById('today').textContent = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
   // Comprueba si cada sistema responde (sin entrar en él): verde si contesta, rojo si no
+  const systems = [...document.querySelectorAll('[data-sys]')];
+  const summary = document.getElementById('summary');
+  const summaryText = document.getElementById('summaryText');
+  let checked = 0, up = 0;
+  const updateSummary = () => {
+    if (checked < systems.length) return;
+    const down = systems.filter((c) => c.dataset.ok === 'no').map((c) => c.querySelector('.name').textContent);
+    summary.classList.add(down.length ? 'bad' : 'ok');
+    summaryText.textContent = down.length
+      ? `${up} de ${systems.length} funcionando · no responde: ${down.join(', ')}`
+      : `${up} de ${systems.length} sistemas funcionando`;
+  };
   for (const card of document.querySelectorAll('[data-check]')) {
     const state = card.querySelector('.state');
     const label = state.querySelector('span:last-child');
-    const done = (ok) => { state.classList.add(ok ? 'ok' : 'bad'); label.textContent = ok ? 'Funcionando' : 'No responde'; };
+    const done = (ok) => {
+      state.classList.add(ok ? 'ok' : 'bad');
+      label.textContent = ok ? 'Funcionando' : 'No responde';
+      state.title = label.textContent;
+      if (card.hasAttribute('data-sys')) { card.dataset.ok = ok ? 'si' : 'no'; checked++; if (ok) up++; updateSummary(); }
+    };
     const stop = new AbortController();
     const timer = setTimeout(() => stop.abort(), 10000);
     fetch(card.href, { mode: 'no-cors', cache: 'no-store', signal: stop.signal })
       .then(() => done(true), () => done(false))
       .finally(() => clearTimeout(timer));
   }
+
+  // Buscador: filtra por nombre, descripción o dirección; Intro abre el primero
+  const q = document.getElementById('q');
+  const all = [...document.querySelectorAll('a.sys, a.web')];
+  const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  q.addEventListener('input', () => {
+    const t = norm(q.value.trim());
+    for (const a of all) a.classList.toggle('hidden', !!t && !norm(a.textContent).includes(t));
+    document.getElementById('noSys').classList.toggle('hidden', systems.some((a) => !a.classList.contains('hidden')));
+    document.getElementById('noWeb').classList.toggle('hidden', all.some((a) => a.classList.contains('web') && !a.classList.contains('hidden')));
+  });
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { const first = all.find((a) => !a.classList.contains('hidden')); if (first) window.open(first.href, '_blank', 'noopener'); }
+    if (e.key === 'Escape') { q.value = ''; q.dispatchEvent(new Event('input')); q.blur(); }
+  });
+
+  // Atajos de teclado: 1–7 abre un sistema, / va al buscador
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.target === q) return;
+    if (e.key === '/') { e.preventDefault(); q.focus(); return; }
+    const n = Number(e.key);
+    if (n >= 1 && n <= systems.length) window.open(systems[n - 1].href, '_blank', 'noopener');
+  });
 </script>
 </body>
 </html>
