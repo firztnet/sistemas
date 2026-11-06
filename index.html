@@ -63,10 +63,22 @@
 
     /* Webs: fila de tarjetas pequeñas y sencillas */
     .webs { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
-    a.web { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; overflow: hidden; color: #fff; text-decoration: none; background: radial-gradient(240px circle at 0% 0%, color-mix(in srgb, var(--wa) 28%, transparent), transparent 70%), linear-gradient(135deg, var(--w1), var(--w2)); border: 1px solid color-mix(in srgb, var(--wa) 30%, transparent); box-shadow: 0 6px 16px color-mix(in srgb, var(--w2) 30%, transparent); transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s; }
-    a.web:hover, a.web:focus-visible { transform: translateY(-2px); border-color: var(--wa); box-shadow: 0 14px 30px color-mix(in srgb, var(--wa) 35%, transparent); outline: none; }
+    /* Efecto espejo: cristal transparente con su color, reflejo en diagonal y borde de luz arriba */
+    a.web { position: relative; isolation: isolate; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; overflow: hidden; color: #fff; text-decoration: none;
+      background: radial-gradient(260px circle at 0% 0%, color-mix(in srgb, var(--wa) 45%, transparent), transparent 70%), linear-gradient(135deg, color-mix(in srgb, var(--w1) 60%, transparent), color-mix(in srgb, var(--w2) 72%, transparent));
+      -webkit-backdrop-filter: blur(14px) saturate(2) brightness(1.08); backdrop-filter: blur(14px) saturate(2) brightness(1.08);
+      border: 1px solid rgba(255, 255, 255, 0.45); border-bottom-color: color-mix(in srgb, var(--wa) 45%, transparent);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -10px 24px color-mix(in srgb, var(--wa) 14%, transparent), 0 8px 22px color-mix(in srgb, var(--w2) 28%, transparent);
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s; }
+    a.web::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 38%, transparent 38.5%, transparent 70%, rgba(255, 255, 255, 0.08) 100%); transition: transform 0.5s; }
+    a.web::before { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; z-index: -1; pointer-events: none; background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.28), transparent); transform: skewX(-18deg); transition: left 0.7s ease; }
+    a.web:hover::before, a.web:focus-visible::before { left: 130%; }
+    a.web:hover, a.web:focus-visible { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.7); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -10px 24px color-mix(in srgb, var(--wa) 22%, transparent), 0 16px 34px color-mix(in srgb, var(--wa) 38%, transparent); outline: none; }
+    a.web .name, a.web .tag { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
+    a.web .addr { filter: brightness(1.25); }
     a.web .av { width: 42px; height: 42px; border-radius: 12px; background: color-mix(in srgb, var(--wa) 16%, transparent); border: 1px solid color-mix(in srgb, var(--wa) 40%, transparent); color: var(--wa); box-shadow: none; }
-    a.web .av svg { width: 30px; height: 30px; stroke-width: 6; }
+    a.web .av svg { width: 30px; height: 30px; stroke-width: 7; filter: drop-shadow(0 0 6px var(--wa)) brightness(1.2); }
+    a.web .av { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5); }
     a.web .name { font-size: 15px; color: #fff; }
     a.web .tag { color: color-mix(in srgb, #fff 72%, transparent); font-size: 12.5px; }
     a.web .addr { margin-top: 1px; font-size: 11.5px; color: var(--wa); }
