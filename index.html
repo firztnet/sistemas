@@ -93,7 +93,8 @@
     a.sys img, a.web img { -webkit-user-drag: none; }
     .moving { cursor: grabbing !important; }
     .moving a.sys, .moving a.web { cursor: grabbing; }
-    a.dragging { z-index: 5; opacity: 0.92; transform: scale(1.04) rotate(-1deg) !important; box-shadow: 0 24px 50px rgba(20, 26, 43, 0.28) !important; transition: none !important; }
+    .systems, .webs { position: relative; }
+    a.dragging { z-index: 20; opacity: 0.95; pointer-events: none; box-shadow: 0 28px 60px rgba(20, 26, 43, 0.3) !important; transition: none !important; will-change: transform; }
     .systems.drop-zone, .webs.drop-zone { outline: 2px dashed #c3c9d8; outline-offset: 8px; border-radius: 22px; }
     .grip { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); width: 28px; height: 4px; border-radius: 4px; background: #d6dae4; opacity: 0; transition: opacity 0.15s; }
     a.sys:hover .grip { opacity: 1; }
@@ -308,18 +309,35 @@
 
   let drag = null;      // { card, group, startX, startY, active, pointerId, timer }
   let justDragged = false;
+  // La tarjeta sigue al puntero: se desplaza desde su hueco en la cuadrícula hasta donde esté el ratón o el dedo
+  const follow = (d) => {
+    const g = d.group.getBoundingClientRect();
+    const x = d.x - g.left - d.grabX - d.card.offsetLeft;
+    const y = d.y - g.top - d.grabY - d.card.offsetTop;
+    d.card.style.transform = `translate(${x}px, ${y}px) scale(1.04) rotate(-1.2deg)`;
+  };
   const start = (d) => {
     d.active = true;
+    d.card.getAnimations().forEach((an) => an.cancel());   // por si aún se estaba posando de un arrastre anterior
+    const r = d.card.getBoundingClientRect();
+    d.grabX = d.startX - r.left; d.grabY = d.startY - r.top;
+    d.x = d.startX; d.y = d.startY;
     d.card.classList.add('dragging');
     d.group.classList.add('drop-zone');
     document.body.classList.add('moving');
+    follow(d);
     if (navigator.vibrate) navigator.vibrate(15);
   };
   const end = () => {
     if (!drag) return;
     clearTimeout(drag.timer);
     if (drag.active) {
-      drag.card.classList.remove('dragging');
+      const card = drag.card;
+      const from = card.style.transform;
+      card.classList.remove('dragging');
+      card.style.transform = '';
+      // Al soltar, la tarjeta se posa suavemente en su nuevo sitio
+      card.animate([{ transform: from }, { transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.2,.7,.3,1)' });
       drag.group.classList.remove('drop-zone');
       document.body.classList.remove('moving');
       justDragged = true; setTimeout(() => { justDragged = false; }, 50);
@@ -345,6 +363,8 @@
       start(drag);
     }
     e.preventDefault();
+    drag.x = e.clientX; drag.y = e.clientY;
+    follow(drag);
     const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('a.sys, a.web');
     if (!over || over === drag.card || over.parentElement !== drag.group) return;
     const r = over.getBoundingClientRect();
@@ -352,6 +372,7 @@
     const target = after ? over.nextElementSibling : over;
     if (target === drag.card || target === drag.card.nextElementSibling && !after) return;
     flip(drag.group, () => drag.group.insertBefore(drag.card, target));
+    follow(drag);   // su hueco ha cambiado: que siga pegada al puntero
   }, { passive: false });
   document.addEventListener('pointerup', end);
   document.addEventListener('pointercancel', end);
