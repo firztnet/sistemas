@@ -63,14 +63,16 @@
 
     /* Webs: fila de tarjetas pequeñas y sencillas */
     .webs { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
-    a.web { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--card) 70%, transparent); border: 1px dashed #cdd2de; color: inherit; text-decoration: none; transition: border-color 0.15s, background 0.15s; }
-    a.web:hover, a.web:focus-visible { border-style: solid; border-color: #9aa3bb; background: var(--card); outline: none; }
-    a.web .av { width: 38px; height: 38px; border-radius: 11px; background: #eef0f5; color: #4a5570; box-shadow: none; }
-    a.web .av svg { width: 30px; height: 30px; }
-    a.web .name { font-size: 14.5px; }
-    a.web .addr { font-size: 12px; }
+    a.web { position: relative; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 16px; overflow: hidden; color: #fff; text-decoration: none; background: radial-gradient(240px circle at 0% 0%, color-mix(in srgb, var(--wa) 28%, transparent), transparent 70%), linear-gradient(135deg, var(--w1), var(--w2)); border: 1px solid color-mix(in srgb, var(--wa) 30%, transparent); box-shadow: 0 6px 16px color-mix(in srgb, var(--w2) 30%, transparent); transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s; }
+    a.web:hover, a.web:focus-visible { transform: translateY(-2px); border-color: var(--wa); box-shadow: 0 14px 30px color-mix(in srgb, var(--wa) 35%, transparent); outline: none; }
+    a.web .av { width: 42px; height: 42px; border-radius: 12px; background: color-mix(in srgb, var(--wa) 16%, transparent); border: 1px solid color-mix(in srgb, var(--wa) 40%, transparent); color: var(--wa); box-shadow: none; }
+    a.web .av svg { width: 30px; height: 30px; stroke-width: 6; }
+    a.web .name { font-size: 15px; color: #fff; }
+    a.web .tag { color: color-mix(in srgb, #fff 72%, transparent); font-size: 12.5px; }
+    a.web .addr { margin-top: 1px; font-size: 11.5px; color: var(--wa); }
     a.web .state { margin-left: auto; }
     a.web .state span:last-child { display: none; }
+    a.web .state.ok .dot { background: #4ade80; }
 
     .hidden { display: none !important; }
     .empty { color: var(--muted); font-size: 14px; padding: 8px 2px; }
@@ -142,19 +144,19 @@
 
   <h2>Webs</h2>
   <div class="webs" id="webs">
-    <a class="web" href="https://firztnet.es/" target="_blank" rel="noopener" data-check>
+    <a class="web" href="https://firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#0d1730;--w2:#070b14;--wa:#34e0a1">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="28" y="34" width="64" height="42" rx="5"/><path d="M46 90h28M60 76v14"/></svg></span>
-      <div><div class="name">Firztnet · reparaciones</div><div class="addr">firztnet.es</div></div>
+      <div><div class="name">Firztnet · reparaciones</div><div class="tag">Soporte técnico en Madrid</div><div class="addr">firztnet.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="web" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check>
+    <a class="web" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#2c1f47;--w2:#140e21;--wa:#b48cff">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="30"/><path d="M30 60h60M60 30c-12 14-12 46 0 60M60 30c12 14 12 46 0 60"/></svg></span>
-      <div><div class="name">Firztweb</div><div class="addr">webs.firztnet.es</div></div>
+      <div><div class="name">Firztweb</div><div class="tag">Webs y apps a medida</div><div class="addr">webs.firztnet.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="web" href="https://techcompara.es/" target="_blank" rel="noopener" data-check>
+    <a class="web" href="https://techcompara.es/" target="_blank" rel="noopener" data-check style="--w1:#0f5f66;--w2:#0a3236;--wa:#ffa23a">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 88V68M52 88V48M70 88V58M88 88V34" stroke-width="10"/></svg></span>
-      <div><div class="name">TechCompara</div><div class="addr">techcompara.es</div></div>
+      <div><div class="name">TechCompara</div><div class="tag">Comparativas de informática</div><div class="addr">techcompara.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
   </div>
