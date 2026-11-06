@@ -87,6 +87,19 @@
     a.web .state.ok .dot { background: #4ade80; }
 
     .hidden { display: none !important; }
+
+    /* Mover tarjetas: se arrastran dentro de su sección (ratón) o manteniendo pulsado (móvil) */
+    a.sys, a.web { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; -webkit-touch-callout: none; }
+    a.sys img, a.web img { -webkit-user-drag: none; }
+    .moving { cursor: grabbing !important; }
+    .moving a.sys, .moving a.web { cursor: grabbing; }
+    a.dragging { z-index: 5; opacity: 0.92; transform: scale(1.04) rotate(-1deg) !important; box-shadow: 0 24px 50px rgba(20, 26, 43, 0.28) !important; transition: none !important; }
+    .systems.drop-zone, .webs.drop-zone { outline: 2px dashed #c3c9d8; outline-offset: 8px; border-radius: 22px; }
+    .grip { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); width: 28px; height: 4px; border-radius: 4px; background: #d6dae4; opacity: 0; transition: opacity 0.15s; }
+    a.sys:hover .grip { opacity: 1; }
+    .reset { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
+    .reset:hover { color: var(--ink); border-color: #9aa3bb; }
+    .hint { display: block; }
     .empty { color: var(--muted); font-size: 14px; padding: 8px 2px; }
     footer { margin-top: 38px; color: var(--muted); font-size: 12px; text-align: center; line-height: 1.9; }
     /* En el móvil no hay teclado: fuera los números y los atajos */
@@ -109,44 +122,51 @@
 
   <h2>Sistemas de gestión <small>· pulsa su número para abrirlo</small></h2>
   <div class="systems" id="systems">
-    <a class="sys" href="https://hosteleria.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#d49a3c;--c2:#a24f22">
+    <a class="sys" draggable="false" href="https://hosteleria.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#d49a3c;--c2:#a24f22">
       <kbd>1</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="f" d="M38 52h36v12a18 18 0 0 1-36 0z"/><path d="M74 56a8 8 0 0 1 0 16"/><path d="M38 90h36"/><path d="M48 44c-3-4-3-9 0-13M62 44c-3-4-3-9 0-13"/></svg></span>
         <div><div class="name">Hostelería</div><div class="tag">Bares y restaurantes</div></div></div>
       <div class="sys-foot"><span class="addr">hosteleria.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://peluquerias.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#c05a8a;--c2:#7a3f93">
+    <a class="sys" draggable="false" href="https://peluquerias.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#c05a8a;--c2:#7a3f93">
       <kbd>2</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M52 70 76 30M68 70 44 30"/><circle cx="46" cy="80" r="10"/><circle cx="74" cy="80" r="10"/></svg></span>
         <div><div class="name">Peluquerías</div><div class="tag">Salones de belleza</div></div></div>
       <div class="sys-foot"><span class="addr">peluquerias.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://reformas.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#26507a;--c2:#0b1020;--mark:#e2c27f">
+    <a class="sys" draggable="false" href="https://reformas.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#26507a;--c2:#0b1020;--mark:#e2c27f">
       <kbd>3</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 60 60 34 90 60"/><path d="M38 54v34h44V54"/><rect class="f" x="53" y="66" width="14" height="22"/></svg></span>
         <div><div class="name">Reformas</div><div class="tag">Obras, fichaje y presupuestos</div></div></div>
       <div class="sys-foot"><span class="addr">reformas.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://logistica.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#3b82f6;--c2:#1e40af">
+    <a class="sys" draggable="false" href="https://logistica.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#3b82f6;--c2:#1e40af">
       <kbd>4</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M24 40h46v38H24zM70 54h16l12 14v10H70"/><circle class="f" cx="40" cy="84" r="8"/><circle class="f" cx="82" cy="84" r="8"/></svg></span>
         <div><div class="name">Logística</div><div class="tag">Rutas y repartos</div></div></div>
       <div class="sys-foot"><span class="addr">logistica.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://reparaciones.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#1f5fbf;--c2:#0e2f6b;--mark:#f6b04a">
+    <a class="sys" draggable="false" href="https://reparaciones.firztnet.es/" target="_blank" rel="noopener" data-check data-sys style="--c1:#1f5fbf;--c2:#0e2f6b;--mark:#f6b04a">
       <kbd>5</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 86 64 56" stroke-width="10"/><path class="f" d="M58 40a18 18 0 0 1 24 24l-10-2-6-6-2-10z"/></svg></span>
         <div><div class="name">Reparaciones</div><div class="tag">Taller y avisos de las webs</div></div></div>
       <div class="sys-foot"><span class="addr">reparaciones.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://admin.reciclar.firztnet.es/plataforma/" target="_blank" rel="noopener" data-check data-sys style="--c1:#e3853f;--c2:#3a3f44">
+    <a class="sys" draggable="false" href="https://admin.reciclar.firztnet.es/plataforma/" target="_blank" rel="noopener" data-check data-sys style="--c1:#e3853f;--c2:#3a3f44">
       <kbd>6</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M44 48 54 32a7 7 0 0 1 12 0l9 14M83 64l7 13a7 7 0 0 1-6 10H67M50 87H36a7 7 0 0 1-6-10l7-13"/><path d="M75 46l3-10M75 46l-10-2M67 87l7-7M67 87l7 7M37 64l-10 3M37 64l3 10"/></svg></span>
         <div><div class="name">Reciclaje</div><div class="tag">Chatarrerías y desguaces</div></div></div>
       <div class="sys-foot"><span class="addr">admin.reciclar.firztnet.es</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
     </a>
-    <a class="sys" href="https://campus.firztnet.es/admin" target="_blank" rel="noopener" data-check data-sys style="--c1:#2a9184;--c2:#0d4a5a">
+    <a class="sys" draggable="false" href="https://campus.firztnet.es/admin" target="_blank" rel="noopener" data-check data-sys style="--c1:#2a9184;--c2:#0d4a5a">
       <kbd>7</kbd>
+      <span class="grip" aria-hidden="true"></span>
       <div class="sys-top"><span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path class="f" d="M20 52 60 36l40 16-40 16z"/><path d="M38 60v16c12 9 32 9 44 0V60"/><path d="M96 56v20"/></svg></span>
         <div><div class="name">Campus · mi agenda</div><div class="tag">Agenda y cuentas de estudiantes</div></div></div>
       <div class="sys-foot"><span class="addr">campus.firztnet.es/admin</span><span class="state"><span class="dot"></span><span>Comprobando…</span></span></div>
@@ -156,17 +176,17 @@
 
   <h2>Webs</h2>
   <div class="webs" id="webs">
-    <a class="web" href="https://firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#0d1730;--w2:#070b14;--wa:#34e0a1">
+    <a class="web" draggable="false" href="https://firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#0d1730;--w2:#070b14;--wa:#34e0a1">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="28" y="34" width="64" height="42" rx="5"/><path d="M46 90h28M60 76v14"/></svg></span>
       <div><div class="name">Firztnet · reparaciones</div><div class="tag">Soporte técnico en Madrid</div><div class="addr">firztnet.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="web" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#2c1f47;--w2:#140e21;--wa:#b48cff">
+    <a class="web" draggable="false" href="https://webs.firztnet.es/" target="_blank" rel="noopener" data-check style="--w1:#2c1f47;--w2:#140e21;--wa:#b48cff">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="30"/><path d="M30 60h60M60 30c-12 14-12 46 0 60M60 30c12 14 12 46 0 60"/></svg></span>
       <div><div class="name">Firztweb</div><div class="tag">Webs y apps a medida</div><div class="addr">webs.firztnet.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
     </a>
-    <a class="web" href="https://techcompara.es/" target="_blank" rel="noopener" data-check style="--w1:#0f5f66;--w2:#0a3236;--wa:#ffa23a">
+    <a class="web" draggable="false" href="https://techcompara.es/" target="_blank" rel="noopener" data-check style="--w1:#0f5f66;--w2:#0a3236;--wa:#ffa23a">
       <span class="av"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 88V68M52 88V48M70 88V58M88 88V34" stroke-width="10"/></svg></span>
       <div><div class="name">TechCompara</div><div class="tag">Comparativas de informática</div><div class="addr">techcompara.es</div></div>
       <span class="state" title="Comprobando…"><span class="dot"></span><span>Comprobando…</span></span>
@@ -174,8 +194,10 @@
   </div>
   <p class="empty hidden" id="noWeb">Ninguna web coincide con la búsqueda.</p>
 
-  <footer>Solo enlaces: para entrar en cada sistema hace falta su usuario y contraseña.<span class="keys"><br>
-    Atajos: <kbd>1</kbd>–<kbd>7</kbd> abre un sistema · <kbd>/</kbd> busca · <kbd>Intro</kbd> abre el primero que encuentre</span></footer>
+  <footer>Solo enlaces: para entrar en cada sistema hace falta su usuario y contraseña.
+    <span class="hint">Puedes cambiar el orden: arrastra una tarjeta (en el móvil, mantenla pulsada y muévela). Se guarda en este navegador.</span><span class="keys"><br>
+    Atajos: <kbd>1</kbd>–<kbd>7</kbd> abre un sistema · <kbd>/</kbd> busca · <kbd>Intro</kbd> abre el primero que encuentre</span>
+    <br><button type="button" class="reset hidden" id="resetOrder">↺ Volver al orden original</button></footer>
 </main>
 <script>
   // Saludo según la hora y la fecha de hoy
@@ -224,7 +246,7 @@
     document.getElementById('noWeb').classList.toggle('hidden', all.some((a) => a.classList.contains('web') && !a.classList.contains('hidden')));
   });
   q.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') { const first = all.find((a) => !a.classList.contains('hidden')); if (first) window.open(first.href, '_blank', 'noopener'); }
+    if (e.key === 'Enter') { const first = [...document.querySelectorAll('a.sys, a.web')].find((a) => !a.classList.contains('hidden')); if (first) window.open(first.href, '_blank', 'noopener'); }
     if (e.key === 'Escape') { q.value = ''; q.dispatchEvent(new Event('input')); q.blur(); }
   });
 
@@ -233,8 +255,112 @@
     if (e.ctrlKey || e.metaKey || e.altKey || e.target === q) return;
     if (e.key === '/') { e.preventDefault(); q.focus(); return; }
     const n = Number(e.key);
-    if (n >= 1 && n <= systems.length) window.open(systems[n - 1].href, '_blank', 'noopener');
+    const order = [...document.querySelectorAll('#systems a.sys')];
+    if (n >= 1 && n <= order.length) window.open(order[n - 1].href, '_blank', 'noopener');
   });
+
+  // ---------- Mover tarjetas dentro de su sección ----------
+  // Ratón: pulsar y arrastrar. Móvil: mantener pulsada medio segundo y mover. El orden se guarda en este navegador.
+  const KEY = 'mis-sistemas-orden';
+  const groups = [document.getElementById('systems'), document.getElementById('webs')];
+  const original = groups.map((g) => [...g.children].map((a) => a.href));
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+  const renumber = () => document.querySelectorAll('#systems a.sys').forEach((a, i) => { a.querySelector('kbd').textContent = i + 1; });
+  const isOriginal = () => groups.every((g, i) => [...g.children].every((a, j) => a.href === original[i][j]));
+  const resetBtn = document.getElementById('resetOrder');
+  const save = () => {
+    const data = {};
+    groups.forEach((g) => { data[g.id] = [...g.children].map((a) => a.href); });
+    try { isOriginal() ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, JSON.stringify(data)); } catch {}
+    resetBtn.classList.toggle('hidden', isOriginal());
+    renumber();
+  };
+  const apply = (data) => {
+    for (const g of groups) {
+      const hrefs = data[g.id];
+      if (!Array.isArray(hrefs)) continue;
+      const cards = [...g.children];
+      // Las que estén guardadas, en su orden; las nuevas que se añadan a la página, al final
+      hrefs.map((h) => cards.find((a) => a.href === h)).filter(Boolean).forEach((a) => g.append(a));
+      cards.filter((a) => !hrefs.includes(a.href)).forEach((a) => g.append(a));
+    }
+  };
+  apply(load());
+  resetBtn.classList.toggle('hidden', isOriginal());
+  renumber();
+  resetBtn.addEventListener('click', () => {
+    const data = {}; groups.forEach((g, i) => { data[g.id] = original[i]; });
+    apply(data); save();
+  });
+
+  // Animación suave: cada tarjeta se desliza desde donde estaba (técnica FLIP)
+  const flip = (g, change) => {
+    const before = new Map([...g.children].map((a) => [a, a.getBoundingClientRect()]));
+    change();
+    for (const a of g.children) {
+      if (a.classList.contains('dragging')) continue;
+      const b = before.get(a), n = a.getBoundingClientRect();
+      const dx = b.left - n.left, dy = b.top - n.top;
+      if (!dx && !dy) continue;
+      a.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.2,.7,.3,1)' });
+    }
+  };
+
+  let drag = null;      // { card, group, startX, startY, active, pointerId, timer }
+  let justDragged = false;
+  const start = (d) => {
+    d.active = true;
+    d.card.classList.add('dragging');
+    d.group.classList.add('drop-zone');
+    document.body.classList.add('moving');
+    if (navigator.vibrate) navigator.vibrate(15);
+  };
+  const end = () => {
+    if (!drag) return;
+    clearTimeout(drag.timer);
+    if (drag.active) {
+      drag.card.classList.remove('dragging');
+      drag.group.classList.remove('drop-zone');
+      document.body.classList.remove('moving');
+      justDragged = true; setTimeout(() => { justDragged = false; }, 50);
+      save();
+    }
+    drag = null;
+  };
+  for (const g of groups) {
+    g.addEventListener('pointerdown', (e) => {
+      const card = e.target.closest('a.sys, a.web');
+      if (!card || e.button > 0 || q.value) return;
+      drag = { card, group: g, startX: e.clientX, startY: e.clientY, active: false, pointerId: e.pointerId, touch: e.pointerType !== 'mouse' };
+      // En el móvil hay que mantener pulsado para no confundirlo con desplazar la página
+      if (drag.touch) drag.timer = setTimeout(() => { if (drag && !drag.active) start(drag); }, 450);
+    });
+  }
+  document.addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    const moved = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY);
+    if (!drag.active) {
+      if (drag.touch) { if (moved > 10) { clearTimeout(drag.timer); drag = null; } return; }
+      if (moved < 6) return;
+      start(drag);
+    }
+    e.preventDefault();
+    const over = document.elementFromPoint(e.clientX, e.clientY)?.closest('a.sys, a.web');
+    if (!over || over === drag.card || over.parentElement !== drag.group) return;
+    const r = over.getBoundingClientRect();
+    const after = e.clientY > r.bottom || (e.clientY >= r.top && e.clientX > r.left + r.width / 2);
+    const target = after ? over.nextElementSibling : over;
+    if (target === drag.card || target === drag.card.nextElementSibling && !after) return;
+    flip(drag.group, () => drag.group.insertBefore(drag.card, target));
+  }, { passive: false });
+  document.addEventListener('pointerup', end);
+  document.addEventListener('pointercancel', end);
+  // Mientras se arrastra en el móvil, la página no se desplaza
+  document.addEventListener('touchmove', (e) => { if (drag?.active) e.preventDefault(); }, { passive: false });
+  // Tras soltar, no abrir el sistema; y sin el menú del enlace al mantener pulsado
+  document.addEventListener('click', (e) => { if (justDragged && e.target.closest('a.sys, a.web')) { e.preventDefault(); e.stopPropagation(); } }, true);
+  document.addEventListener('contextmenu', (e) => { if (drag?.active) e.preventDefault(); });
+  document.addEventListener('dragstart', (e) => { if (e.target.closest?.('a.sys, a.web')) e.preventDefault(); });
 </script>
 </body>
 </html>
